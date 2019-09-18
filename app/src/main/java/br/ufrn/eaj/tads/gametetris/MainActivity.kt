@@ -21,13 +21,7 @@ class MainActivity : AppCompatActivity() {
     var running = true
     var speed:Long = 300
 
-    var pt = Ponto(0,15)
-
-    inner class Ponto(var x:Int,var y:Int){
-        fun moveDown(){
-            x++
-        }
-    }
+    var pt = Point(0,15)
 
 
     //val board = Array(LINHA, { IntArray(COLUNA) })

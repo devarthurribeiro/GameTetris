@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0e1828"
+    android:padding="18pt"
+    tools:context=".HomeActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="502dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fullscreen_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:keepScreenOn="true"
+            android:text="@string/dummy_content"
+            android:textColor="#e7243b"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="40pt"
+            />
+
+        <TextView
+            android:id="@+id/newGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="8px"
+            android:text="Novo Jogo" />
+        <TextView
+            android:id="@+id/continueGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="8px"
+            android:text="Continuar" />
+        <TextView
+            android:id="@+id/configureGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="8px"
+            android:text="Configurar" />
+    </LinearLayout>
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
+</FrameLayout>

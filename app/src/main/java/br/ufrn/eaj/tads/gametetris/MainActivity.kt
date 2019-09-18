@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
     var pt = Point(0,15)
 
 
-    //val board = Array(LINHA, { IntArray(COLUNA) })
-
     var board = Array(LINHA) {
         Array(COLUNA){0}
     }
@@ -50,10 +48,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        btnLeft.setOnClickListener {
+            if(pt.y-1 >= 0) {
+                pt.moveLeft()
+            }
+        }
+
+        btnRigth.setOnClickListener {
+            if(pt.y+1 < COLUNA) {
+                pt.moveRight()
+
+            }
+        }
+
+        btnDown.setOnClickListener {
+            if(pt.x+1 < LINHA && board[pt.x+1][pt.y] != 1) {
+                pt.moveDown()
+            }
+        }
+
         gameRun()
     }
 
+    fun printGameBoard() {
+        for (j in 1 until COLUNA) {
+            board[LINHA-1][j] = 1
+        }
+    }
+
     fun gameRun(){
+        printGameBoard()
         Thread{
             while(running){
                 Thread.sleep(speed)
@@ -61,17 +85,25 @@ class MainActivity : AppCompatActivity() {
                     //limpa tela
                     for (i in 0 until LINHA) {
                         for (j in 0 until COLUNA) {
-                            boardView[i][j]!!.setImageResource(R.drawable.black)
+                            when(board[i][j]) {
+                                0 -> {
+                                    boardView[i][j]!!.setImageResource(R.drawable.black)
+                                }
+                                1 -> {
+                                    boardView[i][j]!!.setImageResource(R.drawable.white)
+                                }
+                            }
                         }
                     }
                     //move peça atual
-                    pt.moveDown()
-                    //print peça
-                    try {
+                    if(pt.x+1 < LINHA && board[pt.x+1][pt.y] != 1) {
+                        pt.moveDown()
                         boardView[pt.x][pt.y]!!.setImageResource(R.drawable.white)
-                    }catch (e:ArrayIndexOutOfBoundsException ) {
-                        //se a peça passou das bordas eu vou parar o jogo
-                        running = false
+                    }else{
+                        boardView[pt.x][pt.y]!!.setImageResource(R.drawable.white)
+                        board[pt.x][pt.y] = 1
+                        pt.x = 0
+                        pt.y = COLUNA/2
                     }
 
                 }

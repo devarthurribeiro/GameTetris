@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     var running = true
     var speed: Long = 300
 
-    var part: Part = PartL(0, 15)
+    var part: Part = PartI(0, 15)
 
 
     var board = Array(LINHA) {

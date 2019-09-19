@@ -30,6 +30,7 @@ class PartL(var row:Int, var col:Int): Part(row,col) {
     }
 
     override fun rotate() {
+
     }
 
 }

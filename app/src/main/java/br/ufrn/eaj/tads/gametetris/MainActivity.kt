@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     var speed: Long = 200
 
     var part: Part =
-        PartI(0, 15)
+        PartJ(0, 15)
 
 
     var board = Array(LINHA) {

@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.LayoutInflater
-import br.ufrn.eaj.tads.gametetris.parts.Part
-import br.ufrn.eaj.tads.gametetris.parts.PartI
-import br.ufrn.eaj.tads.gametetris.parts.PartL
+import br.ufrn.eaj.tads.gametetris.parts.*
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     val LINHA = 36
     val COLUNA = 26
     var running = true
-    var speed: Long = 300
+    var speed: Long = 200
 
     var part: Part =
         PartI(0, 15)
@@ -63,12 +62,41 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        btnRotate.setOnClickListener {
+            part.rotate()
+        }
+
         gameRun()
     }
 
     fun printGameBoard() {
         for (j in 1 until COLUNA) {
             board[LINHA - 1][j] = 1
+        }
+    }
+
+    fun getRadomPart():Part {
+        var partId = Random.nextInt(0, 6)
+        return when(partId) {
+            0 -> {
+                return PartT(0, COLUNA/2)
+            }
+            1 -> {
+                return PartJ(0, COLUNA/2)
+            }
+            2 -> {
+                return PartZ(0, COLUNA/2)
+            }
+            3 -> {
+                return PartO(0, COLUNA/2)
+            }
+            4 -> {
+                return PartS(0, COLUNA/2)
+            }
+            5 -> {
+                return PartL(0, COLUNA/2)
+            }
+            else -> return PartI(0, COLUNA/2)
         }
     }
 
@@ -101,7 +129,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun gameRun() {
-        printGameBoard()
+        //printGameBoard()
         Thread {
             while (running) {
                 Thread.sleep(speed)
@@ -129,7 +157,7 @@ class MainActivity : AppCompatActivity() {
                         board[part.pointB.x][part.pointB.y] = 1
                         board[part.pointC.x][part.pointC.y] = 1
                         board[part.pointD.x][part.pointD.y] = 1
-                        part = PartL(0, 15)
+                        part = getRadomPart()
                     }
 
                 }

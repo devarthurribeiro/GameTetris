@@ -1,4 +1,4 @@
-package br.ufrn.eaj.tads.gametetris
+package br.ufrn.eaj.tads.gametetris.parts
 
 class Point(var x:Int,var y:Int){
     fun moveDown(){

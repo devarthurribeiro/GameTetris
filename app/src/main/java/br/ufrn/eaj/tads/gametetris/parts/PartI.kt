@@ -1,11 +1,11 @@
-package br.ufrn.eaj.tads.gametetris
+package br.ufrn.eaj.tads.gametetris.parts
 
-class PartI(var row:Int, var col:Int):Part(row,col) {
+class PartI(var row:Int, var col:Int): Part(row,col) {
 
     init {
-        pointB = Point(row, col-1);
-        pointC = Point(row, col+1);
-        pointD = Point(row,col+2);
+        pointB = Point(row, col - 1);
+        pointC = Point(row, col + 1);
+        pointD = Point(row, col + 2);
     }
 
     override fun moveDown() {

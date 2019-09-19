@@ -24,7 +24,7 @@
             android:keepScreenOn="true"
             android:text="@string/dummy_content"
             android:textColor="#e7243b"
-            android:textSize="50sp"
+            android:textSize="80sp"
             android:textStyle="bold"
             android:layout_marginBottom="40pt"
             />

@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     var running = true
     var speed: Long = 300
 
-    var part = PartL(0, 15)
+    var part: Part = PartL(0, 15)
 
 
     var board = Array(LINHA) {
@@ -48,22 +48,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnLeft.setOnClickListener {
-            if (checkColisionLeft()) {
+            if (checkColisionLeft())
                 part.moveLeft()
-            }
+
         }
 
         btnRigth.setOnClickListener {
-            if (checkColisionRigth()) {
+            if (checkColisionRigth())
                 part.moveRight()
-
-            }
         }
 
         btnDown.setOnClickListener {
-            if (part.pointA.x + 1 < LINHA && board[part.pointA.x + 1][part.pointA.y] != 1) {
+            if (checkColisionX())
                 part.moveDown()
-            }
+
         }
 
         gameRun()

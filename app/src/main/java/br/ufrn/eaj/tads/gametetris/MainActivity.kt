@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     var speed: Long = 200
 
     var part: Part =
-        PartJ(0, 15)
+        PartI(0, 3)
 
 
     var board = Array(LINHA) {
@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnRotate.setOnClickListener {
-            part.rotate()
+            if(checkColisionLeft() && checkColisionRigth())
+                part.rotate()
         }
 
         gameRun()
@@ -94,9 +95,10 @@ class MainActivity : AppCompatActivity() {
                 return PartS(0, COLUNA/2)
             }
             5 -> {
-                return PartL(0, COLUNA/2)
+                return PartI(0, COLUNA/2)
             }
-            else -> return PartI(0, COLUNA/2)
+            6  -> return PartL(0, COLUNA/2)
+            else -> PartO(0, COLUNA/2)
         }
     }
 

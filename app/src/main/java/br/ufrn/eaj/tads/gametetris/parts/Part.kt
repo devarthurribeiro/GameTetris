@@ -2,6 +2,7 @@ package br.ufrn.eaj.tads.gametetris.parts
 
 abstract class Part(var x:Int, var y:Int) {
 
+    var id = 0
     var pointA = Point(x, y)
     var rotated = false
     lateinit var pointB: Point

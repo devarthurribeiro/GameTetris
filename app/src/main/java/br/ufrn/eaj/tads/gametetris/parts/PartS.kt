@@ -3,6 +3,7 @@ package br.ufrn.eaj.tads.gametetris.parts
 class PartS(var row:Int, var col:Int): Part(row,col) {
 
     init {
+        id = 5
         pointB = Point(row, col + 1);
         pointC = Point(row + 1, col);
         pointD = Point(row + 1, col-1);

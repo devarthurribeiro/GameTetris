@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.LayoutInflater
+import androidx.lifecycle.ViewModelProviders
 import br.ufrn.eaj.tads.gametetris.parts.*
 import kotlin.random.Random
 
@@ -15,12 +16,17 @@ class MainActivity : AppCompatActivity() {
     val COLUNA = 20
     var running = true
     var speed: Long = 200
+    var points = 0
 
-    var part: Part = getRadomPart()
+    var part: Part = PartI(0, 3) //getRadomPart()
 
 
     var board = Array(LINHA) {
         Array(COLUNA) { 0 }
+    }
+
+    val vm : BoardViewModel by lazy {
+        ViewModelProviders.of(this)[BoardViewModel::class.java]
     }
 
     var boardView = Array(LINHA) {
@@ -72,6 +78,10 @@ class MainActivity : AppCompatActivity() {
     fun printGameBoard() {
         for (j in 1 until COLUNA) {
             board[LINHA - 1][j] = 1
+            board[LINHA - 2][j] = 1
+            board[LINHA - 3][j] = 1
+            board[LINHA - 4][j] = 1
+            board[LINHA - 5][j] = 1
         }
     }
 
@@ -97,40 +107,81 @@ class MainActivity : AppCompatActivity() {
                 return PartI(0, COLUNA/2)
             }
             6  -> return PartL(0, COLUNA/2)
-            else -> PartO(0, COLUNA/2)
+            else -> return PartO(0, COLUNA/2)
         }
     }
 
-    fun printPart() {
-        boardView[part.pointA.x][part.pointA.y]!!.setImageResource(R.drawable.green)
-        boardView[part.pointB.x][part.pointB.y]!!.setImageResource(R.drawable.green)
-        boardView[part.pointC.x][part.pointC.y]!!.setImageResource(R.drawable.green)
-        boardView[part.pointD.x][part.pointD.y]!!.setImageResource(R.drawable.green)
+    fun printPart(id: Int) {
+        boardView[part.pointA.x][part.pointA.y]!!.setImageResource(getPixel(id))
+        boardView[part.pointB.x][part.pointB.y]!!.setImageResource(getPixel(id))
+        boardView[part.pointC.x][part.pointC.y]!!.setImageResource(getPixel(id))
+        boardView[part.pointD.x][part.pointD.y]!!.setImageResource(getPixel(id))
     }
 
     fun checkColisionX(): Boolean {
-        return ((part.pointA.x + 1 < LINHA && board[part.pointA.x + 1][part.pointA.y] != 1) &&
-                (part.pointB.x + 1 < LINHA && board[part.pointB.x + 1][part.pointB.y] != 1) &&
-                (part.pointC.x + 1 < LINHA && board[part.pointC.x + 1][part.pointC.y] != 1) &&
-                (part.pointD.x + 1 < LINHA && board[part.pointD.x + 1][part.pointD.y] != 1))
+        return ((part.pointA.x + 1 < LINHA && board[part.pointA.x + 1][part.pointA.y] < 1) &&
+                (part.pointB.x + 1 < LINHA && board[part.pointB.x + 1][part.pointB.y] < 1) &&
+                (part.pointC.x + 1 < LINHA && board[part.pointC.x + 1][part.pointC.y] < 1) &&
+                (part.pointD.x + 1 < LINHA && board[part.pointD.x + 1][part.pointD.y] < 1))
     }
 
     fun checkColisionRigth(): Boolean {
-        return ((part.pointA.y + 1 < COLUNA && board[part.pointA.x][part.pointA.y + 1] != 1) &&
-                (part.pointB.y + 1 < COLUNA && board[part.pointB.x][part.pointB.y + 1] != 1) &&
-                (part.pointC.y + 1 < COLUNA && board[part.pointC.x][part.pointC.y + 1] != 1) &&
-                (part.pointD.y + 1 < COLUNA && board[part.pointD.x][part.pointD.y + 1] != 1))
+        return ((part.pointA.y + 1 < COLUNA && board[part.pointA.x][part.pointA.y + 1] < 1) &&
+                (part.pointB.y + 1 < COLUNA && board[part.pointB.x][part.pointB.y + 1] < 1) &&
+                (part.pointC.y + 1 < COLUNA && board[part.pointC.x][part.pointC.y + 1] < 1) &&
+                (part.pointD.y + 1 < COLUNA && board[part.pointD.x][part.pointD.y + 1] < 1))
     }
 
     fun checkColisionLeft(): Boolean {
-        return ((part.pointA.y - 1 >= 0 && board[part.pointA.x][part.pointA.y - 1] != 1) &&
-                (part.pointB.y - 1 >= 0 && board[part.pointB.x][part.pointB.y - 1] != 1) &&
-                (part.pointC.y - 1 >= 0 && board[part.pointC.x][part.pointC.y - 1] != 1) &&
-                (part.pointD.y - 1 >= 0 && board[part.pointD.x][part.pointD.y - 1] != 1))
+        return ((part.pointA.y - 1 >= 0 && board[part.pointA.x][part.pointA.y - 1] < 1) &&
+                (part.pointB.y - 1 >= 0 && board[part.pointB.x][part.pointB.y - 1] < 1) &&
+                (part.pointC.y - 1 >= 0 && board[part.pointC.x][part.pointC.y - 1] < 1) &&
+                (part.pointD.y - 1 >= 0 && board[part.pointD.x][part.pointD.y - 1] < 1))
+    }
+
+    fun destroy(row: Int) {
+        board[row] = Array(COLUNA) { 0 }
+        for (i in row downTo 1) {
+            board[i] = board[i-1]
+        }
+        points += COLUNA
+        txtPoints.text = "Pontos: $points"
+    }
+
+    fun getPixel(id:Int): Int {
+        return  when(id) {
+            0 -> {
+                R.drawable.black
+            }
+            1 -> {
+                R.drawable.p1
+            }
+            2 -> {
+                R.drawable.p2
+            }
+            3 -> {
+                R.drawable.p3
+            }
+            4 -> {
+                R.drawable.p4
+            }
+            5 -> {
+                R.drawable.p5
+            }
+            6 -> {
+                R.drawable.p6
+            }
+            7 -> {
+                R.drawable.p7
+            }
+            else -> {
+                R.drawable.p7
+            }
+        }
     }
 
     fun gameRun() {
-        //printGameBoard()
+        printGameBoard()
         Thread {
             while (running) {
                 Thread.sleep(speed)
@@ -138,29 +189,36 @@ class MainActivity : AppCompatActivity() {
                     //limpa tela
                     for (i in 0 until LINHA) {
                         for (j in 0 until COLUNA) {
-                            when (board[i][j]) {
-                                0 -> {
-                                    boardView[i][j]!!.setImageResource(R.drawable.black)
-                                }
-                                1 -> {
-                                    boardView[i][j]!!.setImageResource(R.drawable.green)
-                                }
-                            }
+                            boardView[i][j]!!.setImageResource(getPixel(board[i][j]))
                         }
                     }
                     //move peça atual
                     if (checkColisionX()) {
                         part.moveDown()
-                        printPart()
+                        printPart(part.id)
                     } else {
-                        printPart()
-                        board[part.pointA.x][part.pointA.y] = 1
-                        board[part.pointB.x][part.pointB.y] = 1
-                        board[part.pointC.x][part.pointC.y] = 1
-                        board[part.pointD.x][part.pointD.y] = 1
+                        printPart(part.id)
+                        board[part.pointA.x][part.pointA.y] = part.id
+                        board[part.pointB.x][part.pointB.y] = part.id
+                        board[part.pointC.x][part.pointC.y] = part.id
+                        board[part.pointD.x][part.pointD.y] = part.id
                         part = getRadomPart()
                     }
 
+                    for (i in 0 until LINHA) {
+                        var cont = 0
+                        for (j in 0 until COLUNA) {
+                            if(board[i][j] == 0)
+                                break
+                            else{
+                                cont++
+                                if(cont === 20) {
+                                    destroy(i)
+                                }
+                            }
+
+                        }
+                    }
                 }
             }
         }.start()

@@ -30,5 +30,28 @@ class PartT (var row:Int, var col:Int): Part(row,col) {
     }
 
     override fun rotate() {
+        if(!rotated) {
+            pointB.x--
+            pointB.y++
+
+            pointC.x++
+            pointC.y--
+
+            pointD.x--
+            pointD.y--
+
+            rotated = true
+        } else {
+            pointB.x++
+            pointB.y--
+
+            pointC.x--
+            pointC.y++
+
+            pointD.y++
+            pointD.x++
+
+            rotated = false
+        }
     }
 }

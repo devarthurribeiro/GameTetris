@@ -12,12 +12,12 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     val LINHA = 36
-    val COLUNA = 26
+    val COLUNA = 20
     var running = true
     var speed: Long = 200
 
     var part: Part =
-        PartI(0, 3)
+        PartS(0, 3)
 
 
     var board = Array(LINHA) {
@@ -103,10 +103,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun printPart() {
-        boardView[part.pointA.x][part.pointA.y]!!.setImageResource(R.drawable.white)
-        boardView[part.pointB.x][part.pointB.y]!!.setImageResource(R.drawable.white)
-        boardView[part.pointC.x][part.pointC.y]!!.setImageResource(R.drawable.white)
-        boardView[part.pointD.x][part.pointD.y]!!.setImageResource(R.drawable.white)
+        boardView[part.pointA.x][part.pointA.y]!!.setImageResource(R.drawable.green)
+        boardView[part.pointB.x][part.pointB.y]!!.setImageResource(R.drawable.green)
+        boardView[part.pointC.x][part.pointC.y]!!.setImageResource(R.drawable.green)
+        boardView[part.pointD.x][part.pointD.y]!!.setImageResource(R.drawable.green)
     }
 
     fun checkColisionX(): Boolean {
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                                     boardView[i][j]!!.setImageResource(R.drawable.black)
                                 }
                                 1 -> {
-                                    boardView[i][j]!!.setImageResource(R.drawable.white)
+                                    boardView[i][j]!!.setImageResource(R.drawable.green)
                                 }
                             }
                         }

@@ -16,8 +16,7 @@ class MainActivity : AppCompatActivity() {
     var running = true
     var speed: Long = 200
 
-    var part: Part =
-        PartS(0, 3)
+    var part: Part = getRadomPart()
 
 
     var board = Array(LINHA) {

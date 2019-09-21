@@ -54,7 +54,7 @@
             android:layout_marginBottom="8pt"
             android:text="@string/resume_label" />
         <TextView
-            android:id="@+id/configureGame"
+            android:id="@+id/settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#babaca"

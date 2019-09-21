@@ -19,8 +19,11 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         newGame.setOnClickListener {
-            val i = Intent(this, MainActivity::class.java);
-            startActivity(i)
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        settings.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 

@@ -21,10 +21,6 @@ class MainActivity : AppCompatActivity() {
     var part: Part = PartI(0, 3) //getRadomPart()
 
 
-    var board = Array(LINHA) {
-        Array(COLUNA) { 0 }
-    }
-
     val vm : BoardViewModel by lazy {
         ViewModelProviders.of(this)[BoardViewModel::class.java]
     }
@@ -75,13 +71,23 @@ class MainActivity : AppCompatActivity() {
         gameRun()
     }
 
+    override fun onPause() {
+        super.onPause()
+        running =   false
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        running = true
+        gameRun()
+    }
     fun printGameBoard() {
         for (j in 1 until COLUNA) {
-            board[LINHA - 1][j] = 1
-            board[LINHA - 2][j] = 1
-            board[LINHA - 3][j] = 1
-            board[LINHA - 4][j] = 1
-            board[LINHA - 5][j] = 1
+            vm.board[LINHA - 1][j] = 1
+            vm.board[LINHA - 2][j] = 1
+            vm.board[LINHA - 3][j] = 1
+            vm.board[LINHA - 4][j] = 1
+            vm.board[LINHA - 5][j] = 1
         }
     }
 
@@ -119,30 +125,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun checkColisionX(): Boolean {
-        return ((part.pointA.x + 1 < LINHA && board[part.pointA.x + 1][part.pointA.y] < 1) &&
-                (part.pointB.x + 1 < LINHA && board[part.pointB.x + 1][part.pointB.y] < 1) &&
-                (part.pointC.x + 1 < LINHA && board[part.pointC.x + 1][part.pointC.y] < 1) &&
-                (part.pointD.x + 1 < LINHA && board[part.pointD.x + 1][part.pointD.y] < 1))
+        return ((part.pointA.x + 1 < LINHA && vm.board[part.pointA.x + 1][part.pointA.y] < 1) &&
+                (part.pointB.x + 1 < LINHA && vm.board[part.pointB.x + 1][part.pointB.y] < 1) &&
+                (part.pointC.x + 1 < LINHA && vm.board[part.pointC.x + 1][part.pointC.y] < 1) &&
+                (part.pointD.x + 1 < LINHA && vm.board[part.pointD.x + 1][part.pointD.y] < 1))
     }
 
     fun checkColisionRigth(): Boolean {
-        return ((part.pointA.y + 1 < COLUNA && board[part.pointA.x][part.pointA.y + 1] < 1) &&
-                (part.pointB.y + 1 < COLUNA && board[part.pointB.x][part.pointB.y + 1] < 1) &&
-                (part.pointC.y + 1 < COLUNA && board[part.pointC.x][part.pointC.y + 1] < 1) &&
-                (part.pointD.y + 1 < COLUNA && board[part.pointD.x][part.pointD.y + 1] < 1))
+        return ((part.pointA.y + 1 < COLUNA && vm.board[part.pointA.x][part.pointA.y + 1] < 1) &&
+                (part.pointB.y + 1 < COLUNA && vm.board[part.pointB.x][part.pointB.y + 1] < 1) &&
+                (part.pointC.y + 1 < COLUNA && vm.board[part.pointC.x][part.pointC.y + 1] < 1) &&
+                (part.pointD.y + 1 < COLUNA && vm.board[part.pointD.x][part.pointD.y + 1] < 1))
     }
 
     fun checkColisionLeft(): Boolean {
-        return ((part.pointA.y - 1 >= 0 && board[part.pointA.x][part.pointA.y - 1] < 1) &&
-                (part.pointB.y - 1 >= 0 && board[part.pointB.x][part.pointB.y - 1] < 1) &&
-                (part.pointC.y - 1 >= 0 && board[part.pointC.x][part.pointC.y - 1] < 1) &&
-                (part.pointD.y - 1 >= 0 && board[part.pointD.x][part.pointD.y - 1] < 1))
+        return ((part.pointA.y - 1 >= 0 && vm.board[part.pointA.x][part.pointA.y - 1] < 1) &&
+                (part.pointB.y - 1 >= 0 && vm.board[part.pointB.x][part.pointB.y - 1] < 1) &&
+                (part.pointC.y - 1 >= 0 && vm.board[part.pointC.x][part.pointC.y - 1] < 1) &&
+                (part.pointD.y - 1 >= 0 && vm.board[part.pointD.x][part.pointD.y - 1] < 1))
     }
 
     fun destroy(row: Int) {
-        board[row] = Array(COLUNA) { 0 }
+        vm.board[row] = Array(COLUNA) { 0 }
         for (i in row downTo 1) {
-            board[i] = board[i-1]
+            vm.board[i] = vm.board[i-1]
         }
         points += COLUNA
         txtPoints.text = "Pontos: $points"
@@ -151,7 +157,7 @@ class MainActivity : AppCompatActivity() {
     fun getPixel(id:Int): Int {
         return  when(id) {
             0 -> {
-                R.drawable.black
+                R.drawable.blackg1
             }
             1 -> {
                 R.drawable.p1
@@ -181,7 +187,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun gameRun() {
-        printGameBoard()
+        //printGameBoard()
         Thread {
             while (running) {
                 Thread.sleep(speed)
@@ -189,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                     //limpa tela
                     for (i in 0 until LINHA) {
                         for (j in 0 until COLUNA) {
-                            boardView[i][j]!!.setImageResource(getPixel(board[i][j]))
+                            boardView[i][j]!!.setImageResource(getPixel(vm.board[i][j]))
                         }
                     }
                     //move peça atual
@@ -198,17 +204,17 @@ class MainActivity : AppCompatActivity() {
                         printPart(part.id)
                     } else {
                         printPart(part.id)
-                        board[part.pointA.x][part.pointA.y] = part.id
-                        board[part.pointB.x][part.pointB.y] = part.id
-                        board[part.pointC.x][part.pointC.y] = part.id
-                        board[part.pointD.x][part.pointD.y] = part.id
+                        vm.board[part.pointA.x][part.pointA.y] = part.id
+                        vm.board[part.pointB.x][part.pointB.y] = part.id
+                        vm.board[part.pointC.x][part.pointC.y] = part.id
+                        vm.board[part.pointD.x][part.pointD.y] = part.id
                         part = getRadomPart()
                     }
 
                     for (i in 0 until LINHA) {
                         var cont = 0
                         for (j in 0 until COLUNA) {
-                            if(board[i][j] == 0)
+                            if(vm.board[i][j] == 0)
                                 break
                             else{
                                 cont++

@@ -10,4 +10,7 @@
     <string name="resume_label">Resume</string>
     <string name="config_label">Settings</string>
     <string name="game_name">Tetris</string>
+    <string name="settings_title">Settings</string>
+    <string name="game_mode">Difficulty</string>
+    <string name="part_number_label">Part number</string>
 </resources>

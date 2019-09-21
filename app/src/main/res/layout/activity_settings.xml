@@ -9,4 +9,80 @@
     android:padding="18pt"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#e7243b"
+            android:fontFamily="@font/super_mario"
+            android:layout_marginBottom="8pt"
+            android:gravity="center"
+            android:textSize="26sp"
+            android:text="@string/settings_title" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#babaca"
+            android:fontFamily="@font/super_mario"
+            android:layout_marginBottom="8pt"
+            android:text="@string/game_mode" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="114dp">
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Facil"
+                android:textColor="#babaca"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Medio"
+                android:textColor="#babaca"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dificil"
+                android:textColor="#babaca"
+                android:textStyle="bold" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:text="@string/part_number_label"
+            android:textColor="#babaca" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:max="7"
+            android:min="1"
+            android:progress="7" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

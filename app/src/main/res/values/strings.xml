@@ -9,4 +9,7 @@
     <string name="resume_label">Continuar</string>
     <string name="config_label">Configurar</string>
     <string name="game_name">Tetris</string>
+    <string name="settings_title">Configuracao</string>
+    <string name="game_mode">Dificuldade</string>
+    <string name="part_number_label">Numero de pecas</string>
 </resources>

@@ -22,11 +22,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:keepScreenOn="true"
-            android:text="@string/dummy_content"
+            android:text="@string/game_name"
             android:textColor="#e7243b"
             android:textSize="80sp"
             android:textStyle="bold"
+            android:fontFamily="@font/super_mario"
             android:layout_marginBottom="40pt"
+            android:layout_marginTop="8pt"
             />
 
         <TextView
@@ -37,8 +39,9 @@
             android:textSize="28sp"
             android:gravity="center"
             android:textStyle="bold"
-            android:layout_marginBottom="8px"
-            android:text="Novo Jogo" />
+            android:fontFamily="@font/super_mario"
+            android:layout_marginBottom="8pt"
+            android:text="@string/new_game_label" />
         <TextView
             android:id="@+id/continueGame"
             android:layout_width="match_parent"
@@ -47,8 +50,9 @@
             android:textSize="28sp"
             android:gravity="center"
             android:textStyle="bold"
-            android:layout_marginBottom="8px"
-            android:text="Continuar" />
+            android:fontFamily="@font/super_mario"
+            android:layout_marginBottom="8pt"
+            android:text="@string/resume_label" />
         <TextView
             android:id="@+id/configureGame"
             android:layout_width="match_parent"
@@ -57,8 +61,9 @@
             android:textSize="28sp"
             android:gravity="center"
             android:textStyle="bold"
-            android:layout_marginBottom="8px"
-            android:text="Configurar" />
+            android:fontFamily="@font/super_mario"
+            android:layout_marginBottom="8pt"
+            android:text="@string/config_label" />
     </LinearLayout>
 
     <!-- This FrameLayout insets its children based on system windows using

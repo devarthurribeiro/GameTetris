@@ -20,7 +20,8 @@
             android:id="@+id/txtPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pontos: 0"
+            android:text="@string/points_label"
+            android:fontFamily="@font/super_mario"
             android:textColor="#bacaca"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -31,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="Próxima:"
+            android:text="@string/part_label"
+            android:fontFamily="@font/super_mario"
             android:textColor="#bacaca"
             android:textSize="18sp"
             android:textStyle="bold" />

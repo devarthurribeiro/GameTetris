@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GameTetris</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="dummy_content">TETRIS</string>
+    <string name="dummy_button">asd</string>
+    <string name="points_label">Points: 0</string>
+    <string name="part_label">Next</string>
+    <string name="new_game_label">New game</string>
+    <string name="resume_label">Resume</string>
+    <string name="config_label">Settings</string>
+    <string name="game_name">Tetris</string>
+</resources>

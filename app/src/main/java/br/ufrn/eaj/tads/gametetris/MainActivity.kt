@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import br.ufrn.eaj.tads.gametetris.parts.*
 import kotlin.random.Random
@@ -23,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     var points = 0
 
     var part: Part = PartI(0, 3) //getRadomPart()
-
 
     val vm: BoardViewModel by lazy {
         ViewModelProviders.of(this)[BoardViewModel::class.java]
@@ -162,6 +162,14 @@ class MainActivity : AppCompatActivity() {
         txtPoints.text = "Pontos: $points"
     }
 
+    fun checkGameOver() {
+        for (j in 0 until COLUNA) {
+            if (vm.board[0][j] == 1)
+                running = false
+        }
+
+    }
+
     fun checkToDestroy() {
         for (i in 0 until LINHA) {
             var cont = 0
@@ -170,10 +178,9 @@ class MainActivity : AppCompatActivity() {
                     break
                 else {
                     cont++
-                    if (cont === 20)
+                    if (cont == 20)
                         destroy(i)
                 }
-
             }
         }
     }
@@ -233,13 +240,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun gameRun() {
-        //printGameBoard()
+        printGameBoard()
         Thread {
             while (running) {
                 Thread.sleep(speed)
                 runOnUiThread {
                     celarScreen()
                     movePart()
+                    checkGameOver()
                     checkToDestroy()
                 }
             }

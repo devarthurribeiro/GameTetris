@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,57 +14,79 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="502dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/fullscreen_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8pt"
+            android:layout_marginBottom="40pt"
+            android:fontFamily="@font/super_mario"
             android:gravity="center"
             android:keepScreenOn="true"
             android:text="@string/game_name"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="-3"
+            android:shadowDy="-3"
+            android:shadowRadius="1"
             android:textColor="#e7243b"
             android:textSize="80sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/super_mario"
-            android:layout_marginBottom="40pt"
-            android:layout_marginTop="8pt"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/newGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/new_game_label"
             android:textColor="#babaca"
             android:textSize="28sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:fontFamily="@font/super_mario"
-            android:layout_marginBottom="8pt"
-            android:text="@string/new_game_label" />
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/continueGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/resume_label"
             android:textColor="#babaca"
             android:textSize="28sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:fontFamily="@font/super_mario"
-            android:layout_marginBottom="8pt"
-            android:text="@string/resume_label" />
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/config_label"
             android:textColor="#babaca"
             android:textSize="28sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:fontFamily="@font/super_mario"
-            android:layout_marginBottom="8pt"
-            android:text="@string/config_label" />
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="330dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/tetris_home" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
     <!-- This FrameLayout insets its children based on system windows using

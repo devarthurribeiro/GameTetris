@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GameTetris</string>
 
-    <string name="title_activity_home">InicioActivity</string>
+    <string name="title_activity_home">Tetris</string>
     <string name="dummy_content">TETRIS</string>
     <string name="points_label">Pontos: 0</string>
     <string name="part_label">Proxima</string>

@@ -13,4 +13,6 @@
     <string name="settings_title">Settings</string>
     <string name="game_mode">Difficulty</string>
     <string name="part_number_label">Part number</string>
+    <string name="new_record">New record:</string>
+    <string name="exit_label">Exit</string>
 </resources>

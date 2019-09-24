@@ -12,4 +12,9 @@
     <string name="settings_title">Configuracao</string>
     <string name="game_mode">Dificuldade</string>
     <string name="part_number_label">Numero de pecas</string>
+    <string name="game_over" translatable="false">Game Over!</string>
+    <string name="record_label" translatable="false">Record:</string>
+    <string name="new_record">Novo record:</string>
+    <string name="points_text">Pontuacao:</string>
+    <string name="exit_label">Sair</string>
 </resources>

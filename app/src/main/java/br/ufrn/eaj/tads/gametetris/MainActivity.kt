@@ -1,6 +1,7 @@
 package br.ufrn.eaj.tads.gametetris
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -16,8 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     val PREFS = "game_settings"
 
-    val LINHA = 36
-    val COLUNA = 20
+    val ROW = 36
+    val COL = 20
     var running = true
     var speed: Long = 200
     var partsNumber = 7
@@ -29,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         ViewModelProviders.of(this)[BoardViewModel::class.java]
     }
 
-    var boardView = Array(LINHA) {
-        arrayOfNulls<ImageView>(COLUNA)
+    var boardView = Array(ROW) {
+        arrayOfNulls<ImageView>(COL)
     }
 
     var boardViewNextPart = Array(2) {
@@ -41,8 +42,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        gridboard.rowCount = LINHA
-        gridboard.columnCount = COLUNA
+        gridboard.rowCount = ROW
+        gridboard.columnCount = COL
         gridboardNextPart.rowCount = 2
         gridboardNextPart.columnCount = 4
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -51,8 +52,8 @@ class MainActivity : AppCompatActivity() {
 
         val inflater = LayoutInflater.from(this)
 
-        for (i in 0 until LINHA) {
-            for (j in 0 until COLUNA) {
+        for (i in 0 until ROW) {
+            for (j in 0 until COL) {
                 boardView[i][j] =
                     inflater.inflate(R.layout.inflate_image_view, gridboard, false) as ImageView
                 gridboard.addView(boardView[i][j])
@@ -85,7 +86,6 @@ class MainActivity : AppCompatActivity() {
         btnDown.setOnClickListener {
             if (checkColisionX())
                 part.moveDown()
-
         }
 
         btnRotate.setOnClickListener {
@@ -108,12 +108,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun printGameBoard() {
-        for (j in 1 until COLUNA) {
-            vm.board[LINHA - 1][j] = 1
-            vm.board[LINHA - 2][j] = 1
-            vm.board[LINHA - 3][j] = 1
-            vm.board[LINHA - 4][j] = 1
-            vm.board[LINHA - 5][j] = 1
+        for (j in 1 until COL) {
+            vm.board[ROW - 1][j] = 1
+            vm.board[ROW - 2][j] = 1
+            vm.board[ROW - 3][j] = 1
+            vm.board[ROW - 4][j] = 1
+            vm.board[ROW - 5][j] = 1
         }
     }
 
@@ -162,17 +162,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun checkColisionX(): Boolean {
-        return ((part.pointA.x + 1 < LINHA && vm.board[part.pointA.x + 1][part.pointA.y] < 1) &&
-                (part.pointB.x + 1 < LINHA && vm.board[part.pointB.x + 1][part.pointB.y] < 1) &&
-                (part.pointC.x + 1 < LINHA && vm.board[part.pointC.x + 1][part.pointC.y] < 1) &&
-                (part.pointD.x + 1 < LINHA && vm.board[part.pointD.x + 1][part.pointD.y] < 1))
+        return ((part.pointA.x + 1 < ROW && vm.board[part.pointA.x + 1][part.pointA.y] < 1) &&
+                (part.pointB.x + 1 < ROW && vm.board[part.pointB.x + 1][part.pointB.y] < 1) &&
+                (part.pointC.x + 1 < ROW && vm.board[part.pointC.x + 1][part.pointC.y] < 1) &&
+                (part.pointD.x + 1 < ROW && vm.board[part.pointD.x + 1][part.pointD.y] < 1))
     }
 
     fun checkColisionRigth(): Boolean {
-        return ((part.pointA.y + 1 < COLUNA && vm.board[part.pointA.x][part.pointA.y + 1] < 1) &&
-                (part.pointB.y + 1 < COLUNA && vm.board[part.pointB.x][part.pointB.y + 1] < 1) &&
-                (part.pointC.y + 1 < COLUNA && vm.board[part.pointC.x][part.pointC.y + 1] < 1) &&
-                (part.pointD.y + 1 < COLUNA && vm.board[part.pointD.x][part.pointD.y + 1] < 1))
+        return ((part.pointA.y + 1 < COL && vm.board[part.pointA.x][part.pointA.y + 1] < 1) &&
+                (part.pointB.y + 1 < COL && vm.board[part.pointB.x][part.pointB.y + 1] < 1) &&
+                (part.pointC.y + 1 < COL && vm.board[part.pointC.x][part.pointC.y + 1] < 1) &&
+                (part.pointD.y + 1 < COL && vm.board[part.pointD.x][part.pointD.y + 1] < 1))
     }
 
     fun checkColisionLeft(): Boolean {
@@ -183,31 +183,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun destroy(row: Int) {
-        vm.board[row] = Array(COLUNA) { 0 }
+        vm.board[row] = Array(COL) { 0 }
         for (i in row downTo 1) {
             vm.board[i] = vm.board[i - 1]
         }
-        points += COLUNA
+        points += COL
         txtPoints.text = "Pontos: $points"
     }
 
     fun checkGameOver() {
-        for (j in 0 until COLUNA) {
-            if (vm.board[0][j] == 1)
-                running = false
+        for (j in 0 until COL) {
+            if (vm.board[0][j] == 1) {
+                showGameOver()
+                break
+            }
         }
 
     }
 
+    fun showGameOver() {
+        startActivity(Intent(this, GameOverActivity::class.java))
+        finish()
+    }
+
     fun checkToDestroy() {
-        for (i in 0 until LINHA) {
+        for (i in 0 until ROW) {
             var cont = 0
-            for (j in 0 until COLUNA) {
+            for (j in 0 until COL) {
                 if (vm.board[i][j] == 0)
                     break
                 else {
                     cont++
-                    if (cont == 20)
+                    if (cont == COL)
                         destroy(i)
                 }
             }
@@ -247,8 +254,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun clearScreen() {
-        for (i in 0 until LINHA) {
-            for (j in 0 until COLUNA) {
+        for (i in 0 until ROW) {
+            for (j in 0 until COL) {
                 boardView[i][j]!!.setImageResource(getPixel(vm.board[i][j]))
             }
         }
@@ -277,7 +284,7 @@ class MainActivity : AppCompatActivity() {
             vm.board[part.pointB.x][part.pointB.y] = part.id
             vm.board[part.pointC.x][part.pointC.y] = part.id
             vm.board[part.pointD.x][part.pointD.y] = part.id
-            part = getRadomPart(partId, 0, COLUNA / 2)
+            part = getRadomPart(partId, 0, COL / 2)
         }
     }
 

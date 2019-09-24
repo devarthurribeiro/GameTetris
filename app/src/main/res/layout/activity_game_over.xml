@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0e1828"
+    android:padding="18pt"
+    tools:context=".GameOverActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:keepScreenOn="true"
+            android:text="@string/game_over"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="-3"
+            android:shadowDy="-3"
+            android:shadowRadius="1"
+            android:textColor="#e7243b"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/points_text"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/record_label"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/new_record"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8pt"
+            android:layout_marginBottom="60pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:keepScreenOn="true"
+            android:text="@string/game_name"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="-3"
+            android:shadowDy="-3"
+            android:shadowRadius="1"
+            android:textColor="#e7243b"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/newGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/new_game_label"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/exitGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8pt"
+            android:fontFamily="@font/super_mario"
+            android:gravity="center"
+            android:text="@string/exit_label"
+            android:textColor="#babaca"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

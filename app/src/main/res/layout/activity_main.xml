@@ -23,7 +23,7 @@
             android:text="@string/points_label"
             android:fontFamily="@font/super_mario"
             android:textColor="#bacaca"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -35,8 +35,13 @@
             android:text="@string/part_label"
             android:fontFamily="@font/super_mario"
             android:textColor="#bacaca"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:layout_marginRight="4pt"
             android:textStyle="bold" />
+        <GridLayout
+            android:id="@+id/gridboardNextPart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

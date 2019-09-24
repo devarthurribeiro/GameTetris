@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     var speed: Long = 200
     var partsNumber = 7
     var points = 0
-
-    var part: Part = PartI(0, 3) //getRadomPart()
+    var partId = Random.nextInt(0, partsNumber - 1)
+    var part: Part = PartI(0, 2) //getRadomPart()
 
     val vm: BoardViewModel by lazy {
         ViewModelProviders.of(this)[BoardViewModel::class.java]
@@ -33,12 +33,18 @@ class MainActivity : AppCompatActivity() {
         arrayOfNulls<ImageView>(COLUNA)
     }
 
+    var boardViewNextPart = Array(2) {
+        arrayOfNulls<ImageView>(4)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         gridboard.rowCount = LINHA
         gridboard.columnCount = COLUNA
+        gridboardNextPart.rowCount = 2
+        gridboardNextPart.columnCount = 4
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         speed = settings.getLong("speed", 200)
         partsNumber = settings.getInt("partNumber", 7)
@@ -50,6 +56,18 @@ class MainActivity : AppCompatActivity() {
                 boardView[i][j] =
                     inflater.inflate(R.layout.inflate_image_view, gridboard, false) as ImageView
                 gridboard.addView(boardView[i][j])
+            }
+        }
+
+        for (i in 0 until 2) {
+            for (j in 0 until 4) {
+                boardViewNextPart[i][j] =
+                    inflater.inflate(
+                        R.layout.inflate_image_view,
+                        gridboardNextPart,
+                        false
+                    ) as ImageView
+                gridboardNextPart.addView(boardViewNextPart[i][j])
             }
         }
 
@@ -99,30 +117,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getRadomPart(): Part {
-        var partId = Random.nextInt(0, partsNumber - 1)
-        return when (partId) {
+    fun getRadomPart(id: Int, row: Int, col: Int): Part {
+
+        val p = when (id) {
             0 -> {
-                return PartT(0, COLUNA / 2)
+                return PartT(row, col)
             }
             1 -> {
-                return PartJ(0, COLUNA / 2)
+                return PartJ(row, col)
             }
             2 -> {
-                return PartZ(0, COLUNA / 2)
+                return PartZ(row, col)
             }
             3 -> {
-                return PartO(0, COLUNA / 2)
+                return PartO(row, col)
             }
             4 -> {
-                return PartS(0, COLUNA / 2)
+                return PartS(row, col)
             }
             5 -> {
-                return PartI(0, COLUNA / 2)
+                return PartI(row, col)
             }
-            6 -> return PartL(0, COLUNA / 2)
-            else -> return PartO(0, COLUNA / 2)
+            6 -> return PartL(row, col)
+            else -> return PartO(row, col)
         }
+
+        return p
     }
 
     fun printPart(id: Int) {
@@ -130,6 +150,15 @@ class MainActivity : AppCompatActivity() {
         boardView[part.pointB.x][part.pointB.y]!!.setImageResource(getPixel(id))
         boardView[part.pointC.x][part.pointC.y]!!.setImageResource(getPixel(id))
         boardView[part.pointD.x][part.pointD.y]!!.setImageResource(getPixel(id))
+    }
+
+    fun printNextPart(id: Int) {
+        clearScreenNextPart()
+        val partNext = getRadomPart(id, 0, 1)
+        boardViewNextPart[partNext.pointA.x][partNext.pointA.y]!!.setImageResource(getPixel(partNext.id))
+        boardViewNextPart[partNext.pointB.x][partNext.pointB.y]!!.setImageResource(getPixel(partNext.id))
+        boardViewNextPart[partNext.pointC.x][partNext.pointC.y]!!.setImageResource(getPixel(partNext.id))
+        boardViewNextPart[partNext.pointD.x][partNext.pointD.y]!!.setImageResource(getPixel(partNext.id))
     }
 
     fun checkColisionX(): Boolean {
@@ -217,7 +246,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun celarScreen() {
+    fun clearScreen() {
         for (i in 0 until LINHA) {
             for (j in 0 until COLUNA) {
                 boardView[i][j]!!.setImageResource(getPixel(vm.board[i][j]))
@@ -225,8 +254,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun clearScreenNextPart() {
+        for (i in 0 until 2) {
+            for (j in 0 until 4) {
+                boardViewNextPart[i][j]!!.setImageResource(getPixel(vm.board[i][j]))
+            }
+        }
+    }
+
     fun movePart() {
         if (checkColisionX()) {
+            if (part.pointA.x == 0) {
+                partId = Random.nextInt(0, partsNumber - 1)
+
+                printNextPart(partId)
+            }
             part.moveDown()
             printPart(part.id)
         } else {
@@ -235,18 +277,21 @@ class MainActivity : AppCompatActivity() {
             vm.board[part.pointB.x][part.pointB.y] = part.id
             vm.board[part.pointC.x][part.pointC.y] = part.id
             vm.board[part.pointD.x][part.pointD.y] = part.id
-            part = getRadomPart()
+            part = getRadomPart(partId, 0, COLUNA / 2)
         }
     }
 
     fun gameRun() {
         printGameBoard()
+        clearScreenNextPart()
+        printNextPart(partId)
         Thread {
             while (running) {
                 Thread.sleep(speed)
                 runOnUiThread {
-                    celarScreen()
+                    clearScreen()
                     movePart()
+
                     checkGameOver()
                     checkToDestroy()
                 }

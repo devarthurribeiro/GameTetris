@@ -211,7 +211,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showGameOver() {
-        startActivity(Intent(this, GameOverActivity::class.java))
+        startActivity(Intent(this, GameOverActivity::class.java).putExtra("points", points))
         finish()
     }
 
@@ -306,7 +306,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun gameRun() {
-        //printGameBoard()
+        printGameBoard()
         clearScreenNextPart()
         printNextPart(partId)
         Thread {

@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.LayoutInflater
-import android.widget.Toast
+import android.widget.GridLayout
 import androidx.lifecycle.ViewModelProviders
 import br.ufrn.eaj.tads.gametetris.parts.*
 import kotlin.random.Random
@@ -47,40 +47,20 @@ class MainActivity : AppCompatActivity() {
         gridboardNextPart.rowCount = 2
         gridboardNextPart.columnCount = 4
 
-        var bundle :Bundle ?=intent.extras
+        var bundle: Bundle? = intent.extras
 
-        if (bundle!=null && GameState.saved) {
+        if (bundle != null && GameState.saved) {
             vm.board = GameState.board
             points = GameState.points
             part = GameState.part
-        } else {
+        } else
             GameState.resetState()
-        }
 
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         speed = settings.getLong("speed", 200)
 
-        val inflater = LayoutInflater.from(this)
-
-        for (i in 0 until ROW) {
-            for (j in 0 until COL) {
-                boardView[i][j] =
-                    inflater.inflate(R.layout.inflate_image_view, gridboard, false) as ImageView
-                gridboard.addView(boardView[i][j])
-            }
-        }
-
-        for (i in 0 until 2) {
-            for (j in 0 until 4) {
-                boardViewNextPart[i][j] =
-                    inflater.inflate(
-                        R.layout.inflate_image_view,
-                        gridboardNextPart,
-                        false
-                    ) as ImageView
-                gridboardNextPart.addView(boardViewNextPart[i][j])
-            }
-        }
+        initRender(boardView, gridboard, ROW, COL)
+        initRender(boardViewNextPart, gridboardNextPart, 2, 4)
 
         btnLeft.setOnClickListener {
             if (checkColisionLeft())
@@ -108,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if(!gameOver) {
+        if (!gameOver) {
             GameState.points = points
             GameState.board = vm.board
             GameState.part = part
@@ -124,6 +104,17 @@ class MainActivity : AppCompatActivity() {
         gameRun()
     }
 
+    fun initRender(array: Array<Array<ImageView?>>, grid: GridLayout, row: Int, col: Int) {
+        val inflater = LayoutInflater.from(this)
+        for (i in 0 until row) {
+            for (j in 0 until col) {
+                array!![i][j] =
+                    inflater.inflate(R.layout.inflate_image_view, grid, false) as ImageView
+                grid.addView(array!![i][j])
+            }
+        }
+    }
+
     fun printGameBoard() {
         for (j in 1 until COL) {
             vm.board[ROW - 1][j] = 1
@@ -135,31 +126,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getRadomPart(id: Int, row: Int, col: Int): Part {
-
-        val p = when (id) {
-            0 -> {
-                return PartT(row, col)
-            }
-            1 -> {
-                return PartJ(row, col)
-            }
-            2 -> {
-                return PartZ(row, col)
-            }
-            3 -> {
-                return PartO(row, col)
-            }
-            4 -> {
-                return PartS(row, col)
-            }
-            5 -> {
-                return PartI(row, col)
-            }
-            6 -> return PartL(row, col)
-            else -> return PartO(row, col)
+        return when (id) {
+            0 -> PartT(row, col)
+            1 -> PartJ(row, col)
+            2 -> PartZ(row, col)
+            3 -> PartO(row, col)
+            4 -> PartS(row, col)
+            5 -> PartI(row, col)
+            6 -> PartL(row, col)
+            else ->  PartO(row, col)
         }
-
-        return p
     }
 
     fun printPart(id: Int) {
@@ -170,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun printNextPart(id: Int) {
-        clearScreenNextPart()
+        clearScreen(boardViewNextPart, 2,4)
         val partNext = getRadomPart(id, 0, 1)
         boardViewNextPart[partNext.pointA.x][partNext.pointA.y]!!.setImageResource(getPixel(partNext.id))
         boardViewNextPart[partNext.pointB.x][partNext.pointB.y]!!.setImageResource(getPixel(partNext.id))
@@ -230,50 +206,22 @@ class MainActivity : AppCompatActivity() {
 
     fun getPixel(id: Int): Int {
         return when (id) {
-            0 -> {
-                R.drawable.blackg1
-            }
-            1 -> {
-                R.drawable.p1
-            }
-            2 -> {
-                R.drawable.p2
-            }
-            3 -> {
-                R.drawable.p3
-            }
-            4 -> {
-                R.drawable.p4
-            }
-            5 -> {
-                R.drawable.p5
-            }
-            6 -> {
-                R.drawable.p6
-            }
-            7 -> {
-                R.drawable.p7
-            }
-            else -> {
-                R.drawable.p7
-            }
+            0 -> R.drawable.blackg1
+            1 -> R.drawable.p1
+            2 -> R.drawable.p2
+            3 -> R.drawable.p3
+            4 -> R.drawable.p4
+            5 -> R.drawable.p5
+            6 -> R.drawable.p6
+            7 -> R.drawable.p7
+            else -> R.drawable.p7
         }
     }
 
-    fun clearScreen() {
-        for (i in 0 until ROW) {
-            for (j in 0 until COL) {
-                boardView[i][j]!!.setImageResource(getPixel(vm.board[i][j]))
-            }
-        }
-    }
-
-    fun clearScreenNextPart() {
-        for (i in 0 until 2) {
-            for (j in 0 until 4) {
-                boardViewNextPart[i][j]!!.setImageResource(getPixel(vm.board[i][j]))
-            }
-        }
+    fun clearScreen(array: Array<Array<ImageView?>>, row:Int, col: Int) {
+        for (i in 0 until row)
+            for (j in 0 until col)
+                array[i][j]!!.setImageResource(getPixel(vm.board[i][j]))
     }
 
     fun movePart() {
@@ -305,13 +253,13 @@ class MainActivity : AppCompatActivity() {
 
     fun gameRun() {
         printGameBoard()
-        clearScreenNextPart()
+        clearScreen(boardViewNextPart, 2, 4)
         printNextPart(partId)
         Thread {
             while (running) {
                 Thread.sleep(speed)
                 runOnUiThread {
-                    clearScreen()
+                    clearScreen(boardView, ROW, COL)
                     movePart()
                     checkToDestroy()
                 }

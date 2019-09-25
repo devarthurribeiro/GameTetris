@@ -22,9 +22,8 @@ class MainActivity : AppCompatActivity() {
     var gameOver = false
     var running = true
     var speed: Long = 200
-    var partsNumber = 7
     var points = 0
-    var partId = Random.nextInt(0, partsNumber - 1)
+    var partId = Random.nextInt(0, 7)
     var part: Part = getRadomPart(partId, 0, COL / 2)
 
     val vm: BoardViewModel by lazy {
@@ -60,7 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         speed = settings.getLong("speed", 200)
-        partsNumber = settings.getInt("partNumber", 7)
 
         val inflater = LayoutInflater.from(this)
 
@@ -281,7 +279,7 @@ class MainActivity : AppCompatActivity() {
     fun movePart() {
         if (checkColisionX()) {
             if (part.pointA.x == 0) {
-                partId = Random.nextInt(0, partsNumber - 1)
+                partId = Random.nextInt(0, 7)
 
                 printNextPart(partId)
             }

@@ -68,22 +68,5 @@
                 android:textStyle="bold" />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8pt"
-            android:fontFamily="@font/super_mario"
-            android:text="@string/part_number_label"
-            android:textColor="#babaca" />
-
-        <SeekBar
-            android:id="@+id/partNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="false"
-            android:max="7"
-            android:min="1"
-            android:progress="7" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

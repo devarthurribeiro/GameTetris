@@ -14,14 +14,13 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        val speed = settings.getLong("speed", 200)
-        val partsNumber = settings.getInt("partNumber", 7)
-        partNumber.progress = partsNumber
+        val speed = settings.getLong("speed", 200L)
+
         if (speed == 100L)
             rdGameMode.check(d3.id)
         if (speed == 200L)
             rdGameMode.check(d2.id)
-        if (speed == 200L)
+        if (speed == 300L)
             rdGameMode.check(d1.id)
 
     }
@@ -42,8 +41,6 @@ class SettingsActivity : AppCompatActivity() {
                 editor.putLong("speed", 100)
             }
         }
-
-        editor.putInt("partNumber", partNumber.progress)
 
         editor.commit()
     }

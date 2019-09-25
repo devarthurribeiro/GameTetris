@@ -3,7 +3,7 @@
     <string name="app_name">GameTetris</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="dummy_content">TETRIS</string>
-    <string name="points_label">Points: 0</string>
+    <string name="points_label">Points:</string>
     <string name="part_label">Next</string>
     <string name="new_game_label">New game</string>
     <string name="resume_label">Resume</string>

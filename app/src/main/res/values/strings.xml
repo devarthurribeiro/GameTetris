@@ -3,7 +3,7 @@
 
     <string name="title_activity_home">Tetris</string>
     <string name="dummy_content">TETRIS</string>
-    <string name="points_label">Pontos: 0</string>
+    <string name="points_label">Pontos:</string>
     <string name="part_label">Proxima</string>
     <string name="new_game_label">Novo jogo</string>
     <string name="resume_label">Continuar</string>

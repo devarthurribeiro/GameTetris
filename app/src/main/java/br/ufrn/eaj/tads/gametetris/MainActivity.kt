@@ -207,7 +207,7 @@ class MainActivity : AppCompatActivity() {
             vm.board[i] = vm.board[i - 1]
         }
         points += COL
-        txtPoints.text = "Pontos: $points"
+        txtPoints.text = "${getResources().getString(R.string.points_label)} $points"
     }
 
     fun showGameOver() {

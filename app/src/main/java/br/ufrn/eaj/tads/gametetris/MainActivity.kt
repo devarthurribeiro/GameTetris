@@ -16,15 +16,16 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     val PREFS = "game_settings"
-
     val ROW = 36
     val COL = 20
+
+    var gameOver = false
     var running = true
     var speed: Long = 200
     var partsNumber = 7
     var points = 0
     var partId = Random.nextInt(0, partsNumber - 1)
-    var part: Part = PartI(0, 2) //getRadomPart()
+    var part: Part = getRadomPart(partId, 0, COL / 2)
 
     val vm: BoardViewModel by lazy {
         ViewModelProviders.of(this)[BoardViewModel::class.java]
@@ -46,6 +47,17 @@ class MainActivity : AppCompatActivity() {
         gridboard.columnCount = COL
         gridboardNextPart.rowCount = 2
         gridboardNextPart.columnCount = 4
+
+        var bundle :Bundle ?=intent.extras
+
+        if (bundle!=null && GameState.saved) {
+            vm.board = GameState.board
+            points = GameState.points
+            part = GameState.part
+        } else {
+            GameState.resetState()
+        }
+
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         speed = settings.getLong("speed", 200)
         partsNumber = settings.getInt("partNumber", 7)
@@ -89,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnRotate.setOnClickListener {
-            if (checkColisionLeft() && checkColisionRigth())
+            if (checkColisionX() && checkColisionLeft() && checkColisionRigth())
                 part.rotate()
         }
 
@@ -98,6 +110,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        if(!gameOver) {
+            GameState.points = points
+            GameState.board = vm.board
+            GameState.part = part
+            GameState.saved = true
+        } else
+            GameState.resetState()
         running = false
     }
 
@@ -191,16 +210,6 @@ class MainActivity : AppCompatActivity() {
         txtPoints.text = "Pontos: $points"
     }
 
-    fun checkGameOver() {
-        for (j in 0 until COL) {
-            if (vm.board[0][j] == 1) {
-                showGameOver()
-                break
-            }
-        }
-
-    }
-
     fun showGameOver() {
         startActivity(Intent(this, GameOverActivity::class.java))
         finish()
@@ -279,17 +288,25 @@ class MainActivity : AppCompatActivity() {
             part.moveDown()
             printPart(part.id)
         } else {
+            if (part.pointA.x == 0) {
+                running = false
+                Thread.interrupted()
+                gameOver = true
+            }
+
             printPart(part.id)
+
             vm.board[part.pointA.x][part.pointA.y] = part.id
             vm.board[part.pointB.x][part.pointB.y] = part.id
             vm.board[part.pointC.x][part.pointC.y] = part.id
             vm.board[part.pointD.x][part.pointD.y] = part.id
+
             part = getRadomPart(partId, 0, COL / 2)
         }
     }
 
     fun gameRun() {
-        printGameBoard()
+        //printGameBoard()
         clearScreenNextPart()
         printNextPart(partId)
         Thread {
@@ -298,11 +315,11 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     clearScreen()
                     movePart()
-
-                    checkGameOver()
                     checkToDestroy()
                 }
             }
+            if (gameOver)
+                showGameOver()
         }.start()
     }
 }

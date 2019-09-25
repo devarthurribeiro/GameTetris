@@ -57,7 +57,8 @@
             android:text="@string/resume_label"
             android:textColor="#babaca"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/settings"

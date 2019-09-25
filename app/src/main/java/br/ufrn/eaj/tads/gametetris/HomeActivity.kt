@@ -25,6 +25,19 @@ class HomeActivity : AppCompatActivity() {
         settings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
+
+        continueGame.setOnClickListener {
+            val i = Intent(this, MainActivity::class.java)
+            i.putExtra("continue", false)
+            startActivity(i)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (GameState.saved) {
+            continueGame.visibility = View.VISIBLE
+        }
     }
 
 }

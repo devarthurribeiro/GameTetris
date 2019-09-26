@@ -28,14 +28,10 @@ class MainActivity : AppCompatActivity() {
     var part: Part = getRadomPart(partId, 0, COL / 2)
 
     private val ob1 = Observer<Int> {
-        updateScore(it?:0)
+        updateScore()
     }
 
-    val vm: BoardViewModel by lazy {
-        ViewModelProviders.of(this)[BoardViewModel::class.java]
-    }
-
-    val gvm: GameStateViewModel by lazy {
+    val vm: GameStateViewModel by lazy {
         ViewModelProviders.of(this)[GameStateViewModel::class.java]
     }
 
@@ -60,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         if (bundle != null && GameState.saved) {
             vm.board = GameState.board
-            points = GameState.points
+            vm.points = GameState.points
             part = GameState.part
         } else
             GameState.resetState()
@@ -87,19 +83,43 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnRotate.setOnClickListener {
-            if (checkColisionX() && checkColisionLeft() && checkColisionRigth())
-                part.rotate()
+
+            if (checkColisionX()) {
+                if (!checkColisionRigth()) {
+                    if (checkColisionLeft()) {
+                        part.moveLeft()
+                        part.rotate()
+                    }
+                }
+                else if (!checkColisionLeft()) {
+                    if (checkColisionRigth()) {
+                        part.moveRight()
+                        part.rotate()
+                    }
+                } else
+                    part.rotate()
+            }
+
         }
 
-        gvm.notifyPoints.observe(this, ob1)
+        btnPause.setOnClickListener {
+            if (running)
+                running = false
+            else {
+                running = true
+                gameRun()
+            }
+        }
 
+        vm.notifyPoints.observe(this, ob1)
+        updateScore()
         gameRun()
     }
 
     override fun onPause() {
         super.onPause()
         if (!gameOver)
-            GameState.saveState(points, vm.board, part)
+            GameState.saveState(vm.points, vm.board, part)
         else
             GameState.resetState()
         running = false
@@ -177,12 +197,11 @@ class MainActivity : AppCompatActivity() {
         for (i in row downTo 1) {
             vm.board[i] = vm.board[i - 1]
         }
-        gvm.addScore(COL)
-
+        vm.addScore(COL)
     }
 
-    fun updateScore(v:Int) {
-        txtPoints.text = "${getResources().getString(R.string.points_label)} $v"
+    fun updateScore() {
+        txtPoints.text = "${getResources().getString(R.string.points_label)} ${vm.points}"
     }
 
     fun showGameOver() {
@@ -252,7 +271,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun gameRun() {
+    fun printTest() {
         for (j in 1 until COL) {
             vm.board[ROW - 1][j] = 1
             vm.board[ROW - 2][j] = 1
@@ -260,6 +279,10 @@ class MainActivity : AppCompatActivity() {
             vm.board[ROW - 4][j] = 1
             vm.board[ROW - 5][j] = 1
         }
+    }
+
+    fun gameRun() {
+
         clearScreen(boardViewNextPart, 2, 4)
         printNextPart(partId)
         Thread {

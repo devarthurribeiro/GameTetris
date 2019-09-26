@@ -16,12 +16,18 @@
         android:layout_marginBottom="8pt"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:text="| |" />
+
         <TextView
             android:id="@+id/txtPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/points_label"
             android:fontFamily="@font/super_mario"
+            android:text="@string/points_label"
             android:textColor="#bacaca"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -111,6 +117,7 @@
             app:layout_constraintStart_toEndOf="@+id/btnRigth"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

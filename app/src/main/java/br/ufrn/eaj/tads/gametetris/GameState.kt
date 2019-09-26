@@ -1,5 +1,6 @@
 package br.ufrn.eaj.tads.gametetris
 
+import android.widget.ImageView
 import br.ufrn.eaj.tads.gametetris.parts.Part
 import br.ufrn.eaj.tads.gametetris.parts.PartI
 
@@ -19,6 +20,13 @@ class GameState {
                 Array(20) { 0 }
             }
             part = PartI(0, 0)
+        }
+
+        fun saveState(p:Int, b:Array<Array<Int>>, pt: Part) {
+            saved = true
+            points = p
+            board = b
+            part = pt
         }
     }
 }

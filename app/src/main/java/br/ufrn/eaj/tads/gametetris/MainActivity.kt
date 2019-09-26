@@ -56,8 +56,7 @@ class MainActivity : AppCompatActivity() {
         } else
             GameState.resetState()
 
-        val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        speed = settings.getLong("speed", 200)
+        speed = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getLong("speed", 200)
 
         initRender(boardView, gridboard, ROW, COL)
         initRender(boardViewNextPart, gridboardNextPart, 2, 4)
@@ -88,12 +87,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (!gameOver) {
-            GameState.points = points
-            GameState.board = vm.board
-            GameState.part = part
-            GameState.saved = true
-        } else
+        if (!gameOver)
+            GameState.saveState(points, vm.board, part)
+        else
             GameState.resetState()
         running = false
     }
@@ -112,16 +108,6 @@ class MainActivity : AppCompatActivity() {
                     inflater.inflate(R.layout.inflate_image_view, grid, false) as ImageView
                 grid.addView(array!![i][j])
             }
-        }
-    }
-
-    fun printGameBoard() {
-        for (j in 1 until COL) {
-            vm.board[ROW - 1][j] = 1
-            vm.board[ROW - 2][j] = 1
-            vm.board[ROW - 3][j] = 1
-            vm.board[ROW - 4][j] = 1
-            vm.board[ROW - 5][j] = 1
         }
     }
 
@@ -252,7 +238,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun gameRun() {
-        printGameBoard()
         clearScreen(boardViewNextPart, 2, 4)
         printNextPart(partId)
         Thread {

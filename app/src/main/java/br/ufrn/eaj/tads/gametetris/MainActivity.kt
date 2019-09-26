@@ -8,6 +8,7 @@ import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.LayoutInflater
 import android.widget.GridLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.ufrn.eaj.tads.gametetris.parts.*
 import kotlin.random.Random
@@ -26,8 +27,16 @@ class MainActivity : AppCompatActivity() {
     var partId = Random.nextInt(0, 7)
     var part: Part = getRadomPart(partId, 0, COL / 2)
 
+    private val ob1 = Observer<Int> {
+        updateScore(it?:0)
+    }
+
     val vm: BoardViewModel by lazy {
         ViewModelProviders.of(this)[BoardViewModel::class.java]
+    }
+
+    val gvm: GameStateViewModel by lazy {
+        ViewModelProviders.of(this)[GameStateViewModel::class.java]
     }
 
     var boardView = Array(ROW) {
@@ -81,6 +90,8 @@ class MainActivity : AppCompatActivity() {
             if (checkColisionX() && checkColisionLeft() && checkColisionRigth())
                 part.rotate()
         }
+
+        gvm.notifyPoints.observe(this, ob1)
 
         gameRun()
     }
@@ -166,8 +177,12 @@ class MainActivity : AppCompatActivity() {
         for (i in row downTo 1) {
             vm.board[i] = vm.board[i - 1]
         }
-        points += COL
-        txtPoints.text = "${getResources().getString(R.string.points_label)} $points"
+        gvm.addScore(COL)
+
+    }
+
+    fun updateScore(v:Int) {
+        txtPoints.text = "${getResources().getString(R.string.points_label)} $v"
     }
 
     fun showGameOver() {
@@ -238,6 +253,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun gameRun() {
+        for (j in 1 until COL) {
+            vm.board[ROW - 1][j] = 1
+            vm.board[ROW - 2][j] = 1
+            vm.board[ROW - 3][j] = 1
+            vm.board[ROW - 4][j] = 1
+            vm.board[ROW - 5][j] = 1
+        }
         clearScreen(boardViewNextPart, 2, 4)
         printNextPart(partId)
         Thread {

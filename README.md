@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://image.flaticon.com/icons/svg/2363/2363722.svg" width="100px" float="center"/>
 </p>
-<h1 align="center">GameTetris</h1>
+<h1 align="center">GameTetris 🎮</h1>
 <p align="center">
   <strong>A implementation for Tetris in Android.</strong>
 </p>

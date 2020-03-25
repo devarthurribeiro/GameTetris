@@ -6,6 +6,12 @@
   <strong>A implementation for Tetris in Android.</strong>
 </p>
 
+<div align="center">
+  <br>
+    <img src="static/demo.gif" alt="Screenshot1" width="280px">
+  <br>
+</div>
+
 ## About ℹ️
 
 Tetris was created in June 1984 by Alexey Pajitnov, an artificial intelligence researcher working for the Soviet Academy of Sciences (now the Russian Academy of Sciences) at the Computer Center in Moscow. Tasked with testing the capabilities of new hardware, Pajitnov would do so by writing simple games for them.

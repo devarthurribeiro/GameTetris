@@ -5,16 +5,19 @@
 <p align="center">
   <strong>A implementation for Tetris in Android.</strong>
 </p>
-<table align="center">
-  <tr>
-     <td>
-      <img src="static/home.png" alt="Screenshot1" width="280px">
-    </td>
-    <td>
-      <img src="static/demo.gif" alt="Screenshot1" width="280px">
-    </td>
-  <tr>
-</table>
+
+<center border="none">
+  <table border="none">
+    <tr>
+       <td>
+        <img src="static/home.png" alt="Screenshot1" width="280px">
+      </td>
+      <td>
+        <img src="static/demo.gif" alt="Screenshot1" width="250px">
+      </td>
+    <tr>
+  </table>
+</center>
 
 ## About ℹ️
 
